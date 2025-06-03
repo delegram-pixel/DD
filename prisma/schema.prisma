@@ -23,6 +23,10 @@ model Photo {
   path      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  // Add relation to User
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@map("photos")
 }
@@ -37,6 +41,10 @@ model Writing {
   contentUrl  String   // URL to the content file on Uploadcare
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  
+  // Add relation to User
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@map("writings")
 }
@@ -70,6 +78,10 @@ model User {
   awards        Award[]
   publications  Publication[]
   recognitions  Recognition[]
+  
+  // Add relations to Writing and Photo
+  writings      Writing[]
+  photos        Photo[]
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
