@@ -7,10 +7,11 @@ const prisma = new PrismaClient()
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    // Await the params since it's now a Promise
+    const { id } = await params
 
     // Check if photo exists
     const existingPhoto = await prisma.photo.findUnique({
@@ -39,5 +40,7 @@ export async function DELETE(
       { error: 'Failed to delete photo' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }
