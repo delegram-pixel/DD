@@ -255,12 +255,12 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      <Tabs defaultValue="account" className="w-full">
+      <Tabs defaultValue="appearance" className="w-full">
         <TabsList className="w-full max-w-md grid grid-cols-3 mb-8">
-          <TabsTrigger value="account">
+          {/* <TabsTrigger value="account">
             <FiUser className="mr-2 h-4 w-4" />
             Account
-          </TabsTrigger>
+          </TabsTrigger> */}
           <TabsTrigger value="appearance">
             <FiLayout className="mr-2 h-4 w-4" />
             Appearance
@@ -275,7 +275,7 @@ export default function SettingsPage() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="account">
+        {/* <TabsContent value="account">
           <Card>
             <CardHeader>
               <CardTitle>Account Information</CardTitle>
@@ -403,7 +403,7 @@ export default function SettingsPage() {
               </Button>
             </CardFooter>
           </Card>
-        </TabsContent>
+        </TabsContent> */}
 
         <TabsContent value="appearance">
           <Card>

@@ -1,8 +1,6 @@
 // app/api/photos/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../generated/prisma'
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET - Fetch all photos
 export async function GET() {

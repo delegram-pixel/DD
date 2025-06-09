@@ -2,43 +2,40 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '../../../../generated/prisma'
+import typeofRouteContext from 'next'
+
+type RouteContext = {
+  params: {
+    id: string
+  }
+}
 
 const prisma = new PrismaClient()
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  try {
-    // Await the params since it's now a Promise
-    const { id } = await params
+  const { id } = params
 
+  try {
     const photo = await prisma.photo.findUnique({
       where: { id },
-      include: {
-        user: true
-      }
+      include: { user: true },
     })
 
     if (!photo) {
-      return NextResponse.json(
-        { error: 'Photo not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: 'Photo not found' }, { status: 404 })
     }
 
     return NextResponse.json(photo)
   } catch (error) {
     console.error('Error fetching photo:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch photo' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch photo' }, { status: 500 })
   } finally {
     await prisma.$disconnect()
   }
 }
-
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -66,18 +63,16 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  context: RouteContext
 ) {
-  try {
-    const { id } = await params
+  const { id } = context.params as { id: string }
 
+  try {
     await prisma.photo.delete({
       where: { id }
     })
 
-    return NextResponse.json(
-      { message: 'Photo deleted successfully' }
-    )
+    return NextResponse.json({ message: 'Photo deleted successfully' })
   } catch (error) {
     console.error('Error deleting photo:', error)
     return NextResponse.json(

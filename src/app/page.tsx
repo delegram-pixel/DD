@@ -113,7 +113,7 @@ export default function HomePage() {
               Explore My Works
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg">
+          <Button asChild variant="outline" size="lg" >
             <Link href="/photos">
               <FiImage className="mr-2 h-5 w-5" />
               Browse Photos
@@ -141,7 +141,7 @@ export default function HomePage() {
       <section className="py-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-bold">Featured Writing</h2>
-          <Button asChild variant="ghost" className="hover:bg-purple-600 bg-[#6d28d9]">
+          <Button asChild variant="ghost">
             <Link href="/works" className="flex items-center">
               View All <FiArrowRight className="ml-2" />
             </Link>
@@ -204,8 +204,8 @@ export default function HomePage() {
       <section className="py-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-bold">Featured Photos</h2>
-          <Button asChild variant="ghost" className="hover:bg-purple-600 bg-[#6d28d9]">
-            <Link href="/photos" className="flex items-center ">
+          <Button asChild variant="ghost" className="hover:bg-purple-600">
+            <Link href="/photos" className="flex items-center">
               View All <FiArrowRight className="ml-2" />
             </Link>
           </Button>

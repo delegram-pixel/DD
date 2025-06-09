@@ -1,8 +1,6 @@
 // app/api/writings/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../generated/prisma'
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET /api/writings - Fetch all writings
 export async function GET() {
@@ -51,9 +49,30 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Writing created successfully', writing });
   } catch (error) {
     console.error('Error creating writing:', error);
-    return NextResponse.json(
-      { error: 'Failed to create writing' },
-      { status: 500 }
-    );
+    
+    // Log the complete error object for debugging
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      });
+      
+      // Check for Prisma validation errors
+      if ('code' in error) {
+        console.error('Prisma error code:', (error as any).code);
+      }
+    }
+    
+    const errorResponse = {
+      error: 'Failed to create writing',
+      details: error instanceof Error ? error.message : 'Unknown error',
+      // Include the full error in development for debugging
+      ...(process.env.NODE_ENV !== 'production' && { 
+        errorDetails: JSON.stringify(error, Object.getOwnPropertyNames(error)) 
+      })
+    };
+    
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }
