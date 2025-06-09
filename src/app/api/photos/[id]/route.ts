@@ -2,20 +2,13 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '../../../../generated/prisma'
-import typeofRouteContext from 'next'
-
-type RouteContext = {
-  params: {
-    id: string
-  }
-}
 
 const prisma = new PrismaClient()
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
-) {
+): Promise<NextResponse> {
   const { id } = params
 
   try {
@@ -38,10 +31,10 @@ export async function GET(
 }
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+  { params }: { params: { id: string } }
+): Promise<NextResponse> {
   try {
-    const { id } = await params
+    const { id } = params
     const body = await request.json()
     
     const updatedPhoto = await prisma.photo.update({
@@ -63,9 +56,9 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: RouteContext
-) {
-  const { id } = context.params as { id: string }
+  { params }: { params: { id: string } }
+): Promise<NextResponse> {
+  const { id } = params as { id: string }
 
   try {
     await prisma.photo.delete({
